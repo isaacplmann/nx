@@ -99,26 +99,11 @@ function addStorybookTask(projectName: string): Rule {
   return updateWorkspace(workspace => {
     workspace.projects.get(projectName).targets.add({
       name: 'storybook',
-      builder: '@nrwl/workspace:run-commands',
+      builder: '@nrwl/storybook:storybook',
       options: {
-        readyWhen: 'http://localhost:4400',
-        commands: [
-          {
-            command: `npx start-storybook -c ${
-              workspace.projects.get(projectName).root
-            }/.storybook -p 4400`
-          }
-        ]
-      },
-      configurations: {
-        ci: {
-          commands: [
-            {
-              command: `npx start-storybook -c ${
-                workspace.projects.get(projectName).root
-              }/.storybook -p 4400 --ci --quiet`
-            }
-          ]
+        port: 4400,
+        config: {
+          configFolder: `${workspace.projects.get(projectName).root}/.storybook`
         }
       }
     });

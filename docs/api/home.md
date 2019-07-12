@@ -13,6 +13,7 @@ can see, for each package its dependencies.
 | @nrwl/nest      | @nrwl/node, @nrwl/jest                  | @nrwl/workspace  |
 | @nrwl/node      | @nrwl/jest, @nrwl/linter                | @nrwl/workspace  |
 | @nrwl/react     | @nrwl/cypress, @nrwl/jest, @nrwl/web    | @nrwl/workspace  |
+| @nrwl/storybook | @nrwl/cypress                           | @nrwl/workspace  |
 | @nrwl/web       | @nrwl/cypress, @nrwl/jest, @nrwl/linter | @nrwl/workspace  |
 | @nrwl/workspace | @nrwl/cli                               |                  |
 
