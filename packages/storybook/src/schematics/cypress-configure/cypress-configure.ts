@@ -80,14 +80,14 @@ function updateAngularJsonBuilder(
       ...e2eTarget,
       options: <any>{
         ...e2eTarget.options,
-        devServerTarget: `${targetProjectName}:storybook:ci`,
-        headless: true
+        devServerTarget: `${targetProjectName}:storybook`,
+        headless: false,
+        watch: true
       },
       configurations: <any>{
-        watch: {
-          devServerTarget: `${targetProjectName}:storybook`,
-          headless: false,
-          watch: true
+        headless: {
+          devServerTarget: `${targetProjectName}:storybook:ci`,
+          headless: true
         }
       }
     };

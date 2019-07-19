@@ -32,9 +32,9 @@ import { NgModule } from '@angular/core';
 import {
   createComponentStoriesFile,
   CreateComponentStoriesFileSchema
-} from '../component-story';
+} from '../component-story/component-story';
 import { getTsSourceFile } from '../../utils/utils';
-import { CreateComponentSpecFileSchema } from '../component-cypress-spec';
+import { CreateComponentSpecFileSchema } from '../component-cypress-spec/component-cypress-spec';
 
 export interface StorybookStoriesSchema {
   name: string;
@@ -146,7 +146,6 @@ export function createAllStories(
                       {
                         projectName,
                         libPath,
-                        moduleFileName: fileName,
                         componentName: info.name,
                         componentPath: info.path,
                         componentFileName: info.componentFileName

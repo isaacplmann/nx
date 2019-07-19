@@ -14,8 +14,8 @@ import {} from '@schematics/angular/utility/json-utils';
 import { getProject } from '@schematics/angular/utility/project';
 import { updateWorkspace } from '@schematics/angular/utility/workspace';
 import { parseJsonAtPath } from '../../utils/utils';
-import { CypressConfigureSchema } from '../cypress-configure';
-import { StorybookStoriesSchema } from '../storybook-stories';
+import { CypressConfigureSchema } from '../cypress-configure/cypress-configure';
+import { StorybookStoriesSchema } from '../storybook-stories/storybook-stories';
 import { StorybookConfigureSchema } from './schema';
 
 export default function(schema: StorybookConfigureSchema): Rule {

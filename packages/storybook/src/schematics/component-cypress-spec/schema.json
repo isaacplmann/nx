@@ -13,11 +13,6 @@
       "description": "Path to the library",
       "examples": ["libs/ui-samples"]
     },
-    "moduleFileName": {
-      "type": "string",
-      "description": "File name of the module that declares this component",
-      "examples": ["ui-samples.module.ts"]
-    },
     "componentName": {
       "type": "string",
       "description": "Class name of the component",
@@ -37,7 +32,6 @@
   "required": [
     "projectName",
     "libPath",
-    "moduleFileName",
     "componentName",
     "componentPath",
     "componentFileName"

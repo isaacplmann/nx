@@ -26,7 +26,7 @@ import {
   CreateComponentStoriesFileSchema,
   getInputPropertyDeclarations,
   getKnobType
-} from '../component-story';
+} from '../component-story/component-story';
 import { getTsSourceFile } from '../../utils/utils';
 import { getProject } from '@schematics/angular/utility/project';
 
@@ -37,7 +37,6 @@ export default function(schema: CreateComponentSpecFileSchema): Rule {
 export interface CreateComponentSpecFileSchema {
   projectName: string;
   libPath: string;
-  moduleFileName: string;
   componentName: string;
   componentPath: string;
   componentFileName: string;
@@ -46,7 +45,6 @@ export interface CreateComponentSpecFileSchema {
 export function createComponentSpecFile({
   projectName,
   libPath,
-  moduleFileName,
   componentName,
   componentPath,
   componentFileName

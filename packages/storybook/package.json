@@ -33,7 +33,12 @@
     "migrations": "./migrations.json"
   },
   "peerDependencies": {
-    "@nrwl/workspace": "*"
+    "@nrwl/workspace": "*",
+    "@storybook/angular": "^5.1.9",
+    "@storybook/addon-knobs": "^5.1.9",
+    "@types/storybook__addon-knobs": "^5.1.9",
+    "babel-loader": "^7.5.4",
+    "@babel/core": "^8.0.6"
   },
   "dependencies": {
     "@angular-devkit/architect": "0.800.1",
