@@ -120,29 +120,6 @@ describe('schematic:storybook-configure', () => {
     ).toBeTruthy();
   });
 
-  it('should run twice without errors', async () => {
-    let tree = await runSchematic(
-      'storybook-configure',
-      <StorybookConfigureSchema>{
-        name: 'test-ui-lib',
-        configureCypress: true,
-        generateCypressSpecs: true,
-        generateStories: true
-      },
-      appTree
-    );
-    tree = await runSchematic(
-      'storybook-configure',
-      <StorybookConfigureSchema>{
-        name: 'test-ui-lib',
-        configureCypress: true,
-        generateCypressSpecs: true,
-        generateStories: true
-      },
-      appTree
-    );
-  });
-
   // it('should launch cypress and storybook successfully', async done => {
   //   const tree = await runSchematic(
   //     'storybook-configure',
