@@ -1,34 +1,30 @@
 import {
-  chain,
-  externalSchematic,
-  Rule,
-  Tree,
-  SchematicContext,
-  mergeWith,
   apply,
-  url,
-  template,
+  chain,
+  mergeWith,
   move,
-  SchematicsException
+  Rule,
+  SchematicContext,
+  SchematicsException,
+  template,
+  Tree,
+  url
 } from '@angular-devkit/schematics';
 import {
-  getSourceNodes,
   findNodes,
-  getDecoratorMetadata,
-  findNode
+  getDecoratorMetadata
 } from '@schematics/angular/utility/ast-utils';
+import { getProject } from '@schematics/angular/utility/project';
 import {
-  SyntaxKind,
+  PropertyAssignment,
   PropertyDeclaration,
-  PropertyAssignment
+  SyntaxKind
 } from 'typescript';
+import { getTsSourceFile } from '../../utils/ast-utils';
 import {
-  CreateComponentStoriesFileSchema,
   getInputPropertyDeclarations,
   getKnobType
 } from '../component-story/component-story';
-import { getTsSourceFile } from '../../utils/utils';
-import { getProject } from '@schematics/angular/utility/project';
 
 export default function(schema: CreateComponentSpecFileSchema): Rule {
   return chain([createComponentSpecFile(schema)]);

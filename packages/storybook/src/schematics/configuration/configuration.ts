@@ -7,15 +7,15 @@ import {
   schematic,
   SchematicContext,
   Tree,
-  url
+  url,
+  externalSchematic
 } from '@angular-devkit/schematics';
 import { getWorkspace } from '@schematics/angular/utility/config';
-import {} from '@schematics/angular/utility/json-utils';
 import { getProject } from '@schematics/angular/utility/project';
 import { updateWorkspace } from '@schematics/angular/utility/workspace';
+import { StorybookStoriesSchema } from '../../../../angular/src/schematics/stories/stories';
 import { parseJsonAtPath } from '../../utils/utils';
-import { CypressConfigureSchema } from '../cypress-configure/cypress-configure';
-import { StorybookStoriesSchema } from '../storybook-stories/storybook-stories';
+import { CypressConfigureSchema } from '../cypress-project/cypress-project';
 import { StorybookConfigureSchema } from './schema';
 
 export default function(schema: StorybookConfigureSchema): Rule {
@@ -24,12 +24,12 @@ export default function(schema: StorybookConfigureSchema): Rule {
     configureTsConfig(schema.name),
     addStorybookTask(schema.name),
     schema.configureCypress
-      ? schematic<CypressConfigureSchema>('cypress-configure', {
+      ? schematic<CypressConfigureSchema>('cypress-project', {
           name: schema.name
         })
       : () => {},
     schema.generateStories
-      ? schematic<StorybookStoriesSchema>('storybook-stories', {
+      ? externalSchematic<StorybookStoriesSchema>('@nrwl/angular', 'stories', {
           name: schema.name,
           generateCypressSpecs:
             schema.configureCypress && schema.generateCypressSpecs

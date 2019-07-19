@@ -2,17 +2,15 @@ import {
   chain,
   externalSchematic,
   Rule,
-  Tree,
-  SchematicContext
+  SchematicContext,
+  Tree
 } from '@angular-devkit/schematics';
-import { safeFileDelete, parseJsonAtPath } from '../../utils/utils';
-import { Observable, of } from 'rxjs';
-import { NodePackageInstallTask } from '@angular-devkit/schematics/tasks';
-import { getProject } from '@schematics/angular/utility/project';
 import {
-  updateWorkspace,
-  getWorkspace
+  getWorkspace,
+  updateWorkspace
 } from '@schematics/angular/utility/config';
+import { getProject } from '@schematics/angular/utility/project';
+import { parseJsonAtPath, safeFileDelete } from '../../utils/utils';
 
 export interface CypressConfigureSchema {
   name: string;

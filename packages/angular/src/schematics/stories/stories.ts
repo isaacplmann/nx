@@ -1,40 +1,20 @@
 import {
   chain,
-  externalSchematic,
   Rule,
-  Tree,
+  schematic,
   SchematicContext,
   SchematicsException,
-  mergeWith,
-  apply,
-  url,
-  template,
-  move,
-  schematic
+  Tree
 } from '@angular-devkit/schematics';
 import {
-  getFirstNgModuleName,
   getDecoratorMetadata,
-  getSourceNodes,
-  findNodes
+  getFirstNgModuleName
 } from '@schematics/angular/utility/ast-utils';
 import { getProject } from '@schematics/angular/utility/project';
-import {
-  SourceFile,
-  createSourceFile,
-  ScriptTarget,
-  SyntaxKind,
-  Identifier,
-  PropertyDeclaration,
-  TypeReference
-} from 'typescript';
-import { NgModule } from '@angular/core';
-import {
-  createComponentStoriesFile,
-  CreateComponentStoriesFileSchema
-} from '../component-story/component-story';
-import { getTsSourceFile } from '../../utils/utils';
+import { SyntaxKind } from 'typescript';
+import { getTsSourceFile } from '../../utils/ast-utils';
 import { CreateComponentSpecFileSchema } from '../component-cypress-spec/component-cypress-spec';
+import { CreateComponentStoriesFileSchema } from '../component-story/component-story';
 
 export interface StorybookStoriesSchema {
   name: string;
