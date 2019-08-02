@@ -141,6 +141,54 @@ exports.default = default_1;`
   execSync(`cp -a ${tmpBackupProjPath()} ${tmpProjPath()}`);
 }
 
+export function createTestUILib(): void {
+  runCLI('g @nrwl/angular:library test-ui-lib --no-interactive');
+  runCLI(
+    'g @schematics/angular:component test-button --project=test-ui-lib --no-interactive'
+  );
+
+  writeFileSync(
+    tmpProjPath(
+      'libs/test-ui-lib/src/lib/test-button/test-button.component.ts'
+    ),
+    `
+import { Component, OnInit, Input } from '@angular/core';
+
+export type ButtonStyle = 'default' | 'primary' | 'accent';
+
+@Component({
+  selector: 'proj-test-button',
+  templateUrl: './test-button.component.html',
+  styleUrls: ['./test-button.component.css']
+})
+export class TestButtonComponent implements OnInit {
+  @Input('buttonType') type = 'button';
+  @Input() style: ButtonStyle = 'default';
+  @Input() age: number;
+  @Input() isOn = false;
+
+  constructor() { }
+
+  ngOnInit() {
+  }
+
+}
+      `
+  );
+
+  writeFileSync(
+    tmpProjPath(
+      'libs/test-ui-lib/src/lib/test-button/test-button.component.html'
+    ),
+    `<button [attr.type]="type" [ngClass]="style"></button>`
+  );
+  runCLI(
+    'g @schematics/angular:component test-other --project=test-ui-lib --no-interactive'
+  );
+
+  execSync(`cp -a ${tmpBackupProjPath()} ${tmpProjPath()}`);
+}
+
 export function ensureProject(): void {
   if (!directoryExists(tmpProjPath())) {
     newProject();
