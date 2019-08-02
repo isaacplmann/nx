@@ -1,22 +1,27 @@
 import {
   apply,
   chain,
+  externalSchematic,
   mergeWith,
   move,
   Rule,
   schematic,
   SchematicContext,
   Tree,
-  url,
-  externalSchematic
+  url
 } from '@angular-devkit/schematics';
-import { getWorkspace } from '@schematics/angular/utility/config';
-import { getProject } from '@schematics/angular/utility/project';
-import { updateWorkspace } from '@schematics/angular/utility/workspace';
+import {
+  getProjectConfig,
+  getWorkspace,
+  updateWorkspace
+} from '@nrwl/workspace';
 import { StorybookStoriesSchema } from '../../../../angular/src/schematics/stories/stories';
 import { parseJsonAtPath } from '../../utils/utils';
 import { CypressConfigureSchema } from '../cypress-project/cypress-project';
 import { StorybookConfigureSchema } from './schema';
+import { from } from 'rxjs';
+import { map } from 'rxjs/operators';
+import workspace from '@nrwl/workspace/src/schematics/workspace/workspace';
 
 export default function(schema: StorybookConfigureSchema): Rule {
   return chain([
@@ -44,7 +49,7 @@ function createStorybookDir(projectName: string): Rule {
 
     return chain([
       mergeWith(
-        apply(url('./files'), [move(getProject(tree, projectName).root)])
+        apply(url('./files'), [move(getProjectConfig(tree, projectName).root)])
       )
     ])(tree, context);
   };
@@ -52,29 +57,37 @@ function createStorybookDir(projectName: string): Rule {
 
 function configureTsConfig(projectName: string): Rule {
   return (tree: Tree) => {
-    const projectPath = getWorkspace(tree).projects[projectName].root;
-    const tsConfigPath = projectPath + '/tsconfig.lib.json';
-    const projectTsConfig = parseJsonAtPath(tree, tsConfigPath);
+    return from(getWorkspace(tree)).pipe(
+      map(workspace => {
+        const projectPath = workspace.projects[projectName].root;
+        const tsConfigPath = projectPath + '/tsconfig.lib.json';
+        const projectTsConfig = parseJsonAtPath(tree, tsConfigPath);
 
-    let tsConfigContent: any;
+        let tsConfigContent: any;
 
-    if (projectTsConfig && projectTsConfig.value) {
-      tsConfigContent = projectTsConfig.value;
-    } else {
-      return tree;
-    }
+        if (projectTsConfig && projectTsConfig.value) {
+          tsConfigContent = projectTsConfig.value;
+        } else {
+          return tree;
+        }
 
-    tsConfigContent.exclude = [...tsConfigContent.exclude, '**/*.stories.ts'];
+        tsConfigContent.exclude = [
+          ...tsConfigContent.exclude,
+          '**/*.stories.ts'
+        ];
 
-    return tree.overwrite(
-      tsConfigPath,
-      JSON.stringify(tsConfigContent, null, 2) + '\n'
+        tree.overwrite(
+          tsConfigPath,
+          JSON.stringify(tsConfigContent, null, 2) + '\n'
+        );
+        return tree;
+      })
     );
   };
 }
 
 function addStorybookTask(projectName: string): Rule {
-  return <any>updateWorkspace(workspace => {
+  return updateWorkspace(workspace => {
     workspace.projects.get(projectName).targets.add({
       name: 'storybook',
       builder: '@nrwl/workspace:run-commands',

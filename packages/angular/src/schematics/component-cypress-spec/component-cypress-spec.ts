@@ -14,7 +14,7 @@ import {
   findNodes,
   getDecoratorMetadata
 } from '@schematics/angular/utility/ast-utils';
-import { getProject } from '@schematics/angular/utility/project';
+import { getProjectConfig } from '@nrwl/workspace';
 import {
   PropertyAssignment,
   PropertyDeclaration,
@@ -47,7 +47,7 @@ export function createComponentSpecFile({
 }: CreateComponentSpecFileSchema): Rule {
   return (tree: Tree, context: SchematicContext): Rule => {
     const e2eLibIntegrationFolderPath =
-      getProject(tree, projectName + '-e2e').sourceRoot + '/integration';
+      getProjectConfig(tree, projectName + '-e2e').sourceRoot + '/integration';
     const fullComponentPath =
       libPath + '/' + componentPath + '/' + componentFileName + '.ts';
     const props = getInputPropertyDeclarations(tree, fullComponentPath).map(

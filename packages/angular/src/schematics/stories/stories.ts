@@ -10,7 +10,7 @@ import {
   getDecoratorMetadata,
   getFirstNgModuleName
 } from '@schematics/angular/utility/ast-utils';
-import { getProject } from '@schematics/angular/utility/project';
+import { getProjectConfig } from '@nrwl/workspace';
 import { SyntaxKind } from 'typescript';
 import { getTsSourceFile } from '../../utils/ast-utils';
 import { CreateComponentSpecFileSchema } from '../component-cypress-spec/component-cypress-spec';
@@ -32,7 +32,8 @@ export function createAllStories(
   return (tree: Tree, context: SchematicContext) => {
     context.logger.debug('adding .storybook folder to lib');
 
-    const libPath = getProject(tree, projectName).sourceRoot + '/lib';
+    debugger;
+    const libPath = getProjectConfig(tree, projectName).sourceRoot + '/lib';
     return chain(
       tree
         .getDir(libPath)
