@@ -141,16 +141,14 @@ exports.default = default_1;`
   execSync(`cp -a ${tmpBackupProjPath()} ${tmpProjPath()}`);
 }
 
-export function createTestUILib(): void {
-  runCLI('g @nrwl/angular:library test-ui-lib --no-interactive');
+export function createTestUILib(libName: string): void {
+  runCLI(`g @nrwl/angular:library ${libName} --no-interactive`);
   runCLI(
-    'g @schematics/angular:component test-button --project=test-ui-lib --no-interactive'
+    `g @schematics/angular:component test-button --project=${libName} --no-interactive`
   );
 
   writeFileSync(
-    tmpProjPath(
-      'libs/test-ui-lib/src/lib/test-button/test-button.component.ts'
-    ),
+    tmpProjPath(`libs/${libName}/src/lib/test-button/test-button.component.ts`),
     `
 import { Component, OnInit, Input } from '@angular/core';
 
@@ -178,12 +176,12 @@ export class TestButtonComponent implements OnInit {
 
   writeFileSync(
     tmpProjPath(
-      'libs/test-ui-lib/src/lib/test-button/test-button.component.html'
+      `libs/${libName}/src/lib/test-button/test-button.component.html`
     ),
     `<button [attr.type]="type" [ngClass]="style"></button>`
   );
   runCLI(
-    'g @schematics/angular:component test-other --project=test-ui-lib --no-interactive'
+    `g @schematics/angular:component test-other --project=${libName} --no-interactive`
   );
 
   execSync(`cp -a ${tmpBackupProjPath()} ${tmpProjPath()}`);

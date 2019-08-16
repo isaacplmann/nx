@@ -14,7 +14,8 @@ import {
   babelCoreVersion,
   babelLoaderVersion,
   storybookAddonKnobsVersion,
-  storybookAngularVersion
+  storybookAngularVersion,
+  storybookAddonKnobsTypesVersion
 } from '../../utils/versions';
 import { Schema } from './schema';
 import { NodePackageInstallTask } from '@angular-devkit/schematics/tasks';
@@ -30,11 +31,22 @@ function checkDependenciesInstalled(): Rule {
         { name: '@storybook/addon-knobs', version: storybookAddonKnobsVersion },
         {
           name: '@types/storybook__addon-knobs',
-          version: storybookAddonKnobsVersion
+          version: storybookAddonKnobsTypesVersion
         },
         { name: 'babel-loader', version: babelLoaderVersion },
-        { name: '@babel/core', version: babelCoreVersion }
+        { name: '@babel/core', version: babelCoreVersion },
+        { name: 'to-string-loader', version: '*' },
+        { name: 'css-loader', version: '*' }
       );
+    }
+    if (
+      !packageJson.dependencies['@angular/forms'] &&
+      !packageJson.devDependencies['@angular/forms']
+    ) {
+      dependencyList.push({
+        name: '@angular/forms',
+        version: '*'
+      });
     }
 
     if (!dependencyList.length) {

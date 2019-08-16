@@ -4,7 +4,8 @@ import {
   runCLI,
   supportUi,
   newProject,
-  runYarnInstall
+  runYarnInstall,
+  uniq
 } from './utils';
 
 forEachCli(() => {
@@ -13,8 +14,12 @@ forEachCli(() => {
       describe('running Storybook and Cypress', () => {
         it('should execute e2e tests using Cypress running against Storybook', () => {
           newProject();
-          createTestUILib();
-          const mylib = 'test-ui-lib';
+
+          const myapp = uniq('myapp');
+          runCLI(`generate @nrwl/angular:app ${myapp} --no-interactive`);
+
+          const mylib = uniq('test-ui-lib');
+          createTestUILib(mylib);
 
           runCLI(
             `generate @nrwl/storybook:configuration ${mylib} --configureCypress --generateStories --generateCypressSpecs --noInteractive`
