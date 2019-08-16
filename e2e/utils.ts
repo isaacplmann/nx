@@ -73,7 +73,7 @@ function patchPackageJsonDeps(addWorkspace = true) {
   writeFileSync(tmpProjPath('package.json'), JSON.stringify(p, null, 2));
 }
 
-function runYarnInstall(silent: boolean = true) {
+export function runYarnInstall(silent: boolean = true) {
   const install = execSync('yarn install', {
     cwd: tmpProjPath(),
     ...(silent ? { stdio: ['ignore', 'ignore', 'ignore'] } : {})

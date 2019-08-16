@@ -4,7 +4,7 @@ import {
   runCLI,
   supportUi,
   newProject,
-  runCommand
+  runYarnInstall
 } from './utils';
 
 forEachCli(() => {
@@ -19,7 +19,7 @@ forEachCli(() => {
           runCLI(
             `generate @nrwl/storybook:configuration ${mylib} --configureCypress --generateStories --generateCypressSpecs --noInteractive`
           );
-          runCommand(`yarn`);
+          runYarnInstall();
 
           expect(
             runCLI(`run ${mylib}-e2e:e2e --configuration=headless`)
