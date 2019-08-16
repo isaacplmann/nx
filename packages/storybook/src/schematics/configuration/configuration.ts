@@ -8,12 +8,14 @@ import {
   schematic,
   SchematicContext,
   Tree,
-  url
+  url,
+  template
 } from '@angular-devkit/schematics';
 import {
   getProjectConfig,
   updateWorkspace,
-  addPackageWithNgAdd
+  addPackageWithNgAdd,
+  offsetFromRoot
 } from '@nrwl/workspace';
 import { StorybookStoriesSchema } from '../../../../angular/src/schematics/stories/stories';
 import { parseJsonAtPath } from '../../utils/utils';
@@ -23,7 +25,8 @@ import { StorybookConfigureSchema } from './schema';
 export default function(schema: StorybookConfigureSchema): Rule {
   return chain([
     schematic('ng-add', {}),
-    createStorybookDir(schema.name),
+    createRootStorybookDir(),
+    createLibStorybookDir(schema.name),
     configureTsConfig(schema.name),
     addStorybookTask(schema.name),
     schema.configureCypress
@@ -41,13 +44,28 @@ export default function(schema: StorybookConfigureSchema): Rule {
   ]);
 }
 
-function createStorybookDir(projectName: string): Rule {
+function createRootStorybookDir(): Rule {
   return (tree: Tree, context: SchematicContext) => {
     context.logger.debug('adding .storybook folder to lib');
 
+    return chain([mergeWith(apply(url('./root-files'), []))])(tree, context);
+  };
+}
+
+function createLibStorybookDir(projectName: string): Rule {
+  return (tree: Tree, context: SchematicContext) => {
+    context.logger.debug('adding .storybook folder to lib');
+    const projectConfig = getProjectConfig(tree, projectName);
+
     return chain([
       mergeWith(
-        apply(url('./files'), [move(getProjectConfig(tree, projectName).root)])
+        apply(url('./lib-files'), [
+          template({
+            tmpl: '',
+            offsetFromRoot: offsetFromRoot(projectConfig.root)
+          }),
+          move(projectConfig.root)
+        ])
       )
     ])(tree, context);
   };
