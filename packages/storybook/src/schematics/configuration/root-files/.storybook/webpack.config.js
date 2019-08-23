@@ -4,36 +4,7 @@ module.exports = async ({ config, mode }) => {
   // You can change the configuration based on that.
   // 'PRODUCTION' is used when building the static version of storybook.
 
-  r = config.module.rules.filter(rule => rule.test != '/\\.s(c|a)ss$/');
-
-  // Make whatever fine-grained changes you need
-  r.push({
-    test: /\.scss$/,
-    // test: /\.s(c|a)ss$/,
-    use: [
-      'to-string-loader',
-      {
-        loader: 'style-loader',
-        options: {
-          sourceMap: true
-        }
-      },
-      {
-        loader: 'css-loader',
-        options: {
-          sourceMap: true
-        }
-      },
-      {
-        loader: 'sass-loader',
-        options: {
-          sourceMap: true
-        }
-      }
-    ]
-  });
-
-  r = r.filter(rule => rule.test != '/\\.css$/');
+  r = config.module.rules.filter(rule => rule.test != '/\\.css$/');
 
   // Make whatever fine-grained changes you need
   r.push({
