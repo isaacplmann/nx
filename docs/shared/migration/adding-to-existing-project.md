@@ -1,6 +1,6 @@
 # Adding Nx to your Existing Project
 
-Nx can be added to any type of project, not just monorepos. The main benefit is to get caching abilities for the package scripts. Each project usually has a set of scripts in the `package.json`:
+Nx can be added to any type of project, not just monorepos. If you already have a npm/pnpm/yarn workspaces monorepo, follow [this guide](/recipes/adopting-nx/adding-to-monorepo). The main benefit is to get caching abilities for the package scripts. Each project usually has a set of scripts in the `package.json`:
 
 ```json {% fileName="package.json" %}
 {
@@ -71,11 +71,11 @@ The `@nx/next` plugin can run `next build` for you and set up caching correctly,
 
 The `test` script was not recognized by any Nx plugin, so it was left as is.
 
-The `includedScripts` array allows you to specify `package.json` scripts that can be run with the `nx build` syntax.
+The `includedScripts` array allows you to specify `package.json` scripts that can be run with Nx (i.e. using `nx build` instead of `npm run build`). We'll update `includedScripts` in the [Configure an Existing Script to Run with Nx](#configure-an-existing-script-to-run-with-nx) section.
 
 ## Inferred Tasks
 
-You may have noticed that `@nx/next` provides `dev` and `start` tasks in addition to the `build` task. Those tasks were created by the `@nx/next` plugin from your existing Next.js configuration. To view all available tasks, open the Project Details view with Nx Console or use the terminal to launch the project details in a browser window.
+You may have noticed that `@nx/next` provides `dev` and `start` tasks in addition to the `build` task. Those tasks were created by the `@nx/next` plugin [from your existing Next.js configuration](/concepts/inferred-tasks). To view all available tasks, open the Project Details view with [Nx Console](/feature/integrate-with-editors) or use the terminal to launch the project details in a browser window.
 
 ```shell
 nx show project my-workspace --web
@@ -239,6 +239,20 @@ The `nx exec` command allows you to keep using `npm test` or `npm run test` (or 
 ```
 
 Now if you run `npm run test` or `nx test` twice, the results will be retrieved from the cache. The `inputs` used in this example are as cautious as possible, so you can significantly improve the value of the cache by [customizing Nx Inputs](/recipes/running-tasks/configure-inputs) for each task.
+
+## Troubleshooting
+
+If you ever want to clear out the cache and run all tasks from scratch, you can run:
+
+```shell
+npx nx reset
+```
+
+Or if you want to skip the cache for a specific command, add the `--skip-nx-cache` flag.
+
+```shell
+nx build --skip-nx-cache
+```
 
 ## Learn More
 

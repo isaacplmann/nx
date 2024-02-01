@@ -719,6 +719,20 @@ Note that all of these targets are automatically cached by Nx. If you re-run a s
 
 Not all tasks might be cacheable though. You can configure the `cache` settings in the `targetDefaults` property of the `nx.json` file. You can also [learn more about how caching works](/features/cache-task-results).
 
+## Troubleshooting the Cache
+
+If you ever want to clear out the cache and run all tasks from scratch, you can run:
+
+```shell
+npx nx reset
+```
+
+Or if you want to skip the cache for a specific command, add the `--skip-nx-cache` flag.
+
+```shell
+nx build --skip-nx-cache
+```
+
 ### Testing Affected Projects
 
 Commit your changes to git.
@@ -950,9 +964,9 @@ Next, let's come up with a set of rules based on these tags:
 - `scope:orders` should be able to import from `scope:orders`, `scope:shared` and `scope:products`
 - `scope:products` should be able to import from `scope:products` and `scope:shared`
 
-To enforce the rules, Nx ships with a custom ESLint rule. Open the `.eslintrc.base.json` at the root of the workspace and add the following `depConstraints` in the `@nx/enforce-module-boundaries` rule configuration:
+To enforce the rules, Nx ships with a custom ESLint rule. Open the `.eslintrc.json` at the root of the workspace and add the following `depConstraints` in the `@nx/enforce-module-boundaries` rule configuration:
 
-```json {% fileName=".eslintrc.base.json" %}
+```json {% fileName=".eslintrc.json" %}
 {
   ...
   "overrides": [
